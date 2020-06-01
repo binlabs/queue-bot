@@ -2,7 +2,7 @@
 A Bot for managing queues of users in Discord.
 
 ## Installation
-These instructions assume you have already created a Discord application, registered it as a bot, and invited it to your Discord server.
+These instructions assume you have already created an application from within the [Discord Developer Portal](https://discord.com/developers/applications), registered it as a bot, and invited it to your Discord server.
 1. `git clone` the repository
 2. Open a terminal, navigate to the directory where the repository is located, and type `npm install`
 3. Open the config.json file and add your bot's token to the `token` field
