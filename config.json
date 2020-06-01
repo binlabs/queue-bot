@@ -2,6 +2,6 @@
 	"prefix": "!",
 	"token": "",
 	"adminRoles": ["Queue_Manager"],
-	"queueTitle": "**__User Queue__**",
+	"queueTitle": "User Queue",
 	"useEmbeds": true
 }
