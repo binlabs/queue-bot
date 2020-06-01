@@ -1,7 +1,7 @@
 {
 	"prefix": "!",
 	"token": "",
-	"adminRoles": ["Defender", "Executive_councillor", "Justice_rep", "Lobby_host"],
+	"adminRoles": ["Queue_Manager"],
 	"queueTitle": "**__User Queue__**",
 	"useEmbeds": true
 }
