@@ -13,17 +13,32 @@ let queueMessageId = 0;
 let queueMessageText = '';
 
 // -- Constants
+// Discord Queue Bot version number
+const dqbVersion = process.env.npm_package_version;
 // Constant to hold the title of the queue message
 const queueMessageTitle = queueTitle;
 // Array to hold users in the queue
 const usersInQueue = [];
+// An embed for the the help command
+const embedHelp = new Discord.MessageEmbed()
+  .setColor('#7ec699')
+  .setTitle('Queue Commands')
+  .setAuthor('Discord Queue Bot', 'https://i.imgur.com/yAoS21k.png', 'https://github.com/binlabs/discord-queue-bot')
+  .setDescription('A list of available commands is available below. Please note that some commands are reserved for queue administators that requre specific roles.')
+  .addFields(
+		{ name: 'Join the queue', value: '`!queue join`', inline: false },
+    { name: 'Leave the queue', value: '`!queue leave`', inline: false  },
+    { name: 'See how long you have been in the queue', value: '`!queue time`' , inline: false },
+		{ name: 'Get a list of available commands', value: '`!queue commands` or `!queue help`', inline: false },
+  )
+  .setFooter(`Running Discord Queue Bot v${dqbVersion}\nVisit https://github.com/binlabs/discord-queue-bot for more information.`);
 // An embed template for the queue message
 const embedQueue = new Discord.MessageEmbed()
-  .setColor('#BF3EFF')
+  .setColor('#7ec699')
   .setTitle(queueMessageTitle)
-  .setAuthor('Queue Bot')
+  .setAuthor('Discord Queue Bot', 'https://i.imgur.com/yAoS21k.png', 'https://github.com/binlabs/discord-queue-bot')
   .setDescription(queueMessageText)
-  .setFooter('Please leave the queue once you have finished your sales.');
+  .setFooter(`Running Discord Queue Bot v${dqbVersion}\nVisit https://github.com/binlabs/discord-queue-bot for more information.`);
 
 // -- Functions
 /**
@@ -329,7 +344,8 @@ client.on('message', message => {
 
   // command: !queue help
   if (command === 'queue' && (subcommand === 'help' || subcommand === 'commands')) {
-    message.channel.send('**Queue Commands**:\n`!queue join`\tJoin the queue\n`!queue leave`\tLeave the queue\n`!queue help` _alias:_ `!queue commands`\tView a list of available commands.\n`!queue time`\tCheck how long you\'ve been in the queue');
+    message.channel.send(embedHelp);
+    //message.channel.send('**Queue Commands**:\n`!queue join`\tJoin the queue\n`!queue leave`\tLeave the queue\n`!queue help` _alias:_ `!queue commands`\tView a list of available commands.\n`!queue time`\tCheck how long you\'ve been in the queue');
   }
 });
 
