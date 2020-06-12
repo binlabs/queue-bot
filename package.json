@@ -1,6 +1,6 @@
 {
   "name": "discord-queue-bot",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "A Discord bot that provides a basic user queue.",
   "main": "index.js",
   "scripts": {
