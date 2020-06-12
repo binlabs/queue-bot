@@ -102,4 +102,7 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Development
 images/
+discord-queue-bot.code-workspace

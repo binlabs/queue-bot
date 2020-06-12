@@ -1,6 +1,6 @@
 {
   "name": "discord-queue-bot",
-  "version": "1.0.0",
+  "version": "1.1.2",
   "description": "A Discord bot that provides a basic user queue.",
   "main": "index.js",
   "scripts": {
@@ -18,27 +18,19 @@
     "bot"
   ],
   "author": "Kurt Maine <develohost@gmail.com>",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/binlabs/discord-queue-bot/issues"
   },
   "homepage": "https://github.com/binlabs/discord-queue-bot#readme",
   "dependencies": {
-    "@discordjs/opus": "^0.1.0",
-    "bufferutil": "^4.0.1",
     "discord.js": "^12.2.0",
-    "erlpack": "github:discordapp/erlpack",
-    "libsodium-wrappers": "^0.7.6",
-    "lodash": "^4.17.15",
-    "opusscript": "0.0.6",
-    "sodium": "^3.0.2",
-    "utf-8-validate": "^5.0.2",
-    "zlib-sync": "^0.1.6"
+    "lodash": "^4.17.15"
   },
   "devDependencies": {
     "eslint": "^6.8.0"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=12.0.0"
   }
 }
