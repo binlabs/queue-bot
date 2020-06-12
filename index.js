@@ -2,52 +2,50 @@
 
 // -- Dependencies
 const Discord = require('discord.js');
-const { prefix, token, adminRoles, queueTitle, useEmbeds } = require('./config.json');
 const client = new Discord.Client();
 const lodash = require('lodash');
+const Config = (exports.Config = require('./config.json'));
 
-// -- Variables
+// #region Variables
 // Variable to hold the ID for the queue message
 let queueMessageId = 0;
 // Variable to hold the queue message
 let queueMessageText = '';
+// #endregion
 
-// -- Constants
-// Discord Queue Bot version number
-const dqbVersion = process.env.npm_package_version;
-// Constant to hold the title of the queue message
-const queueMessageTitle = queueTitle;
+// #region Constants
 // Array to hold users in the queue
 const usersInQueue = [];
 // An embed for the the help command
 const embedHelp = new Discord.MessageEmbed()
-  .setColor('#7ec699')
-  .setTitle('Queue Commands')
-  .setAuthor('Discord Queue Bot', 'https://i.imgur.com/yAoS21k.png', 'https://github.com/binlabs/discord-queue-bot')
-  .setDescription('A list of available commands is available below. Please note that some commands are reserved for queue administators that requre specific roles.')
+  .setColor(Config.embedAccentColor)
+  .setTitle(Config.embedHelpTitle)
+  .setAuthor(Config.embedAuthorName, Config.embedAuthorImage, Config.embedAuthorLink)
+  .setDescription(Config.embedHelpDescription)
   .addFields(
-		{ name: 'Join the queue', value: '`!queue join`', inline: false },
-    { name: 'Leave the queue', value: '`!queue leave`', inline: false  },
-    { name: 'See how long you have been in the queue', value: '`!queue time`' , inline: false },
-		{ name: 'Get a list of available commands', value: '`!queue commands` or `!queue help`', inline: false },
+    { name: 'Join the queue', value: '`!queue join`', inline: false },
+    { name: 'Leave the queue', value: '`!queue leave`', inline: false },
+    { name: 'See how long you have been in the queue', value: '`!queue time`', inline: false },
+    { name: 'Get a list of available commands', value: '`!queue commands` or `!queue help`', inline: false },
   )
-  .setFooter(`Running Discord Queue Bot v${dqbVersion}\nVisit https://github.com/binlabs/discord-queue-bot for more information.`);
+  .setFooter(Config.embedFooterText + process.env.npm_package_version);
 // An embed template for the queue message
 const embedQueue = new Discord.MessageEmbed()
-  .setColor('#7ec699')
-  .setTitle(queueMessageTitle)
-  .setAuthor('Discord Queue Bot', 'https://i.imgur.com/yAoS21k.png', 'https://github.com/binlabs/discord-queue-bot')
+  .setColor(Config.embedAccentColor)
+  .setTitle(Config.queueTitle)
+  .setAuthor(Config.embedAuthorName, Config.embedAuthorImage, Config.embedAuthorLink)
   .setDescription(queueMessageText)
-  .setFooter(`Running Discord Queue Bot v${dqbVersion}\nVisit https://github.com/binlabs/discord-queue-bot for more information.`);
+  .setFooter(Config.embedFooterText + process.env.npm_package_version);
+// #endregion
 
-// -- Functions
+// #region Functions
 /**
  * Create a User object
+ * @param {string} username Discord Username
+ * @param {string} userId Discord User ID
  */
 function User (username, userId) {
-  // Discord Username
   this.username = username;
-  // Discord User ID
   this.userId = userId;
   // Timestamp representing when user was added to the queue
   this.timestamp = new Date();
@@ -59,7 +57,7 @@ function User (username, userId) {
  * @param {string} [timeFormat=true] Format to return the time in
  * @returns {string} Amount of time user has been in queue
  */
-function timeInQueue (userId, timeFormat = 'minutes') {
+function timeInQueue (userId, timeFormat = 'm') {
   const userIsInQueue = isUserInQueue(userId);
   const queuedUserObj = getUserFromQueueByUserId(userId);
   if (userIsInQueue && queuedUserObj) {
@@ -71,17 +69,17 @@ function timeInQueue (userId, timeFormat = 'minutes') {
     const diffHrs = Math.floor((diffMs % 86400000) / 3600000);
     const diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000);
     switch (timeFormat) {
-    case 'minutes':
+    case 'm':
       timeValueReturned = diffMins + ' minute(s)';
       break;
-    case 'hours':
+    case 'h':
       timeValueReturned = diffHrs + ' hour(s)';
       break;
-    case 'days':
+    case 'd':
       timeValueReturned = diffDays + ' day(s)';
       break;
     default:
-      timeValueReturned = diffMs + ' millisecond(s)';
+      timeValueReturned = diffMins + ' minute(s)';
     }
     return timeValueReturned;
   }
@@ -90,8 +88,8 @@ function timeInQueue (userId, timeFormat = 'minutes') {
 
 /**
  * Add a User object to the usersInQueue array
-* @param {string} username Discord name of user
-* @param {string|number} userId Discord ID of user
+ * @param {string} username Discord name of user
+ * @param {string|number} userId Discord ID of user
  */
 function addUserToQueue (username, userId) {
   // Check to see if the user already exists in the queue before adding
@@ -122,7 +120,7 @@ function removeUserFromQueueByUserId (userId) {
  * @returns {boolean} True if a user has an admin role, otherwise return false
  */
 function isUserIsAdmin (userRoles) {
-  if (userRoles.some(r=>adminRoles.includes(r.name))) {
+  if (userRoles.some(r=>Config.adminRoles.includes(r.name))) {
     return true;
   }
   return false;
@@ -164,18 +162,19 @@ function isUserInQueue (userToCheck, checkByUserId = true) {
  */
 function assembleQueueMessage () {
   // Set an empty string if using embeds, otherwise prepend the title before iteration
-  if (useEmbeds) {
+  if (Config.useEmbeds) {
     queueMessageText = '';
   } else {
-    queueMessageText = queueMessageTitle;
+    queueMessageText = Config.queueTitle;
   }
   // Iterate over each user object in the array and add them to the message
   usersInQueue.forEach(function(arrayObj) {
     queueMessageText += '\n' + arrayObj.username;
   });
 }
+// #endregion functions
 
-// -- Event Listeners
+// #region Event Listeners
 // Listen for the ready state
 client.on('ready', () => {
   // Bot is running and ready
@@ -185,10 +184,10 @@ client.on('ready', () => {
 // Listen for messages
 client.on('message', message => {
   // If the message doesn't contain our prefix, or if the message is from the bot, ignore it
-  if (!message.content.startsWith(prefix) || message.author.bot) return;
+  if (!message.content.startsWith(Config.prefix) || message.author.bot) return;
 
   // Split the arguments from the command for parsing
-  const args = message.content.slice(prefix.length).split(/ +/);
+  const args = message.content.slice(Config.prefix.length).split(/ +/);
   // Set the command to a constant for brevity
   const command = args.shift().toLowerCase();
   // Set the subcommand to false so we can check if it set in the future
@@ -207,14 +206,14 @@ client.on('message', message => {
       message.channel.send('A queue already exists.');
       return;
     }
-    if (useEmbeds) {
+    if (Config.useEmbeds) {
       message.channel.send(embedQueue).then(queueMessage => {
         console.log('Queue Created using an embed');
         // Set the queueMessageId to the ID of the message the bot just created
         queueMessageId = queueMessage.id;
       });
     } else {
-      message.channel.send(queueMessageTitle).then(queueMessage => {
+      message.channel.send(Config.queueTitle).then(queueMessage => {
         console.log('Queue Created using a plain-text message');
         // Set the queueMessageId to the ID of the message the bot just created
         queueMessageId = queueMessage.id;
@@ -232,7 +231,7 @@ client.on('message', message => {
       message.channel.messages.fetch(queueMessageId).then(queueMessage => {
         if (addUserToQueue(message.member.displayName, message.member.id, args)) {
           assembleQueueMessage();
-          if (useEmbeds) {
+          if (Config.useEmbeds) {
             queueMessage.edit(embedQueue.setDescription(queueMessageText));
           } else {
             queueMessage.edit(queueMessageText);
@@ -259,7 +258,7 @@ client.on('message', message => {
           message.channel.send(`${message.author} wasn't in the queue`);
         } else {
           assembleQueueMessage();
-          if (useEmbeds) {
+          if (Config.useEmbeds) {
             queueMessage.edit(embedQueue.setDescription(queueMessageText));
           } else {
             queueMessage.edit(queueMessageText);
@@ -279,12 +278,11 @@ client.on('message', message => {
         userToAdd = userToAdd.replace(/\D/g, '');
       }
       message.channel.messages.fetch(queueMessageId).then(queueMessage => {
-        const userToAddObj = client.users.fetch(userToAdd).then(userSnowflake => {
-          console.log(userToAddObj);
+        client.users.fetch(userToAdd).then(userSnowflake => {
           const userAdded = addUserToQueue(userSnowflake.username, userSnowflake.id);
           if (userAdded) {
             assembleQueueMessage();
-            if (useEmbeds) {
+            if (Config.useEmbeds) {
               queueMessage.edit(embedQueue.setDescription(queueMessageText));
             } else {
               queueMessage.edit(queueMessageText);
@@ -309,7 +307,7 @@ client.on('message', message => {
         const userRemoved = removeUserFromQueueByUserId(userToRemove);
         console.log(userRemoved);
         assembleQueueMessage();
-        if (useEmbeds) {
+        if (Config.useEmbeds) {
           queueMessage.edit(embedQueue.setDescription(queueMessageText));
         } else {
           queueMessage.edit(queueMessageText);
@@ -345,9 +343,9 @@ client.on('message', message => {
   // command: !queue help
   if (command === 'queue' && (subcommand === 'help' || subcommand === 'commands')) {
     message.channel.send(embedHelp);
-    //message.channel.send('**Queue Commands**:\n`!queue join`\tJoin the queue\n`!queue leave`\tLeave the queue\n`!queue help` _alias:_ `!queue commands`\tView a list of available commands.\n`!queue time`\tCheck how long you\'ve been in the queue');
+    // message.channel.send('**Queue Commands**:\n`!queue join`\tJoin the queue\n`!queue leave`\tLeave the queue\n`!queue help` _alias:_ `!queue commands`\tView a list of available commands.\n`!queue time`\tCheck how long you\'ve been in the queue');
   }
 });
+// #endregion
 
-// TODO: Create an ENV Variable for this at some point so we don't have to store it in the repo
-client.login(token);
+client.login(Config.token);
