@@ -1,12 +1,15 @@
+<a href="https://github.com/binlabs/queue-bot/actions"><img src="https://github.com/binlabs/queue-bot/workflows/Node.js%20Package/badge.svg" alt="Build Status" /></a>
+<a href="https://www.npmjs.com/package/queue-bot"><img src="https://img.shields.io/npm/v/queue-bot.svg?maxAge=3600" alt="NPM version" /></a>
+<a href="https://www.npmjs.com/package/queue-bot"><img src="https://img.shields.io/npm/dt/queue-bot.svg?maxAge=3600" alt="NPM downloads" /></a>
+
 # Queue Bot
 A simple bot for managing a queue of users in Discord.
 
 ## Installation
 These instructions assume you have already created an application from within the [Discord Developer Portal](https://discord.com/developers/applications), registered it as a bot, and invited it to your Discord server.
-1. `git clone` the repository
-2. Open a terminal, navigate to the directory where the repository is located, and type `npm install`
-3. Open the config.json file and add your bot's token to the `token` field
-4. Run the bot by typing `npm start`
+1. Type `npm install queue-bot` in your terminal
+2. Open the `config.json` file and add your bot's token to the `token` field
+3. Run the bot by typing `npm start`
 
 ## Usage
 Once the bot is running, start a queue by issuing the `!queue start` command.
