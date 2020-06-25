@@ -1,6 +1,6 @@
 {
-  "name": "queue-bot",
-  "version": "1.1.5",
+  "name": "@binlabs/queue-bot",
+  "version": "1.1.6",
   "description": "A Discord bot that provides a basic user queue.",
   "main": "index.js",
   "scripts": {
