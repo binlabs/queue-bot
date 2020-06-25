@@ -1,5 +1,5 @@
-# Discord Queue Bot
-A Bot for managing queues of users in Discord.
+# Queue Bot
+A simple bot for managing a queue of users in Discord.
 
 ## Installation
 These instructions assume you have already created an application from within the [Discord Developer Portal](https://discord.com/developers/applications), registered it as a bot, and invited it to your Discord server.

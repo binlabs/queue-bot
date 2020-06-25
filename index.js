@@ -178,7 +178,7 @@ function assembleQueueMessage () {
 // Listen for the ready state
 client.on('ready', () => {
   // Bot is running and ready
-  console.log('Discord Queue Bot is Running...');
+  console.log('Queue Bot is Running on Discord...');
 });
 
 // Listen for messages
@@ -208,13 +208,13 @@ client.on('message', message => {
     }
     if (Config.useEmbeds) {
       message.channel.send(embedQueue).then(queueMessage => {
-        console.log('Queue Created using an embed');
+        console.log('Queue created using an embed');
         // Set the queueMessageId to the ID of the message the bot just created
         queueMessageId = queueMessage.id;
       });
     } else {
       message.channel.send(Config.queueTitle).then(queueMessage => {
-        console.log('Queue Created using a plain-text message');
+        console.log('Queue created using a plain-text message');
         // Set the queueMessageId to the ID of the message the bot just created
         queueMessageId = queueMessage.id;
       });

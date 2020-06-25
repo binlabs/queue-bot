@@ -5,10 +5,10 @@
 	"queueTitle": "User Queue",
 	"useEmbeds": true,
 	"embedAccentColor": "#7ec699",
-	"embedAuthorName": "Discord Queue Name",
+	"embedAuthorName": "Queue Bot",
   "embedAuthorImage": "https://i.imgur.com/yAoS21k.png",
-  "embedAuthorLink": "https://github.com/binlabs/discord-queue-bot",
-  "embedFooterText": "Visit https://github.com/binlabs/discord-queue-bot for more information.\nRunning Discord Queue Bot v",
+  "embedAuthorLink": "https://github.com/binlabs/queue-bot",
+  "embedFooterText": "Visit https://github.com/binlabs/queue-bot for more information.\nRunning Queue Bot v",
   "embedHelpTitle": "Queue Commands",
   "embedHelpDescription": "A list of available commands is available below. Please note that some commands are reserved for queue administators that requre specific roles."
 }

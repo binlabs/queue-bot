@@ -105,4 +105,4 @@ dist
 
 # Development
 images/
-discord-queue-bot.code-workspace
+*.code-workspace
