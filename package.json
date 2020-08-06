@@ -1,6 +1,6 @@
 {
   "name": "queue-bot",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "description": "A Discord bot that provides a basic user queue.",
   "main": "index.js",
   "scripts": {
@@ -25,7 +25,7 @@
   "homepage": "https://github.com/binlabs/queue-bot#readme",
   "dependencies": {
     "discord.js": "^12.2.0",
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.19"
   },
   "devDependencies": {
     "eslint": "^6.8.0"
